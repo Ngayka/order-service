@@ -1,0 +1,19 @@
+# venv
+.venv/
+
+# pycache
+__pycache__/
+*.pyc
+
+# database
+*.db
+
+# env files
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# alembic migrations cache (не обов'язково, але ок)
+alembic/__pycache__/
