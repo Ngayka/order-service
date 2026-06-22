@@ -10,7 +10,11 @@ class Order(Base):
     __tablename__ = "orders"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     client_id: Mapped[int] = mapped_column(Integer, ForeignKey("clients.id"), nullable=False)
-    order_items: Mapped[list["OrderItem"]] = relationship(back_populates="order")
+    order_items: Mapped[list["OrderItem"]] = relationship(
+        back_populates="order",
+        cascade="all, delete-orphan"
+    )
+    total_price: Mapped[Decimal] = mapped_column(DECIMAL(10, 2), nullable=False)
     client: Mapped["Client"] = relationship(back_populates="orders")
 
 
@@ -23,3 +27,4 @@ class OrderItem(Base):
     quantity: Mapped[int] = mapped_column(default=1, nullable=False)
     order: Mapped["Order"] = relationship(back_populates="order_items")
     product: Mapped["Product"] = relationship(back_populates="order_items")
+

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from order_service.schemas.product import ProductReadSchema
 
@@ -24,3 +24,5 @@ class OrderReadSchema(BaseModel):
     client_id: int
     order_items: list[OrderItemReadSchema]
     total_price: float
+
+    model_config = ConfigDict(from_attributes=True)

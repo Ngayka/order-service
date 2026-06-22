@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from sqlalchemy.orm import Session
 
 from order_service.models import OrderItem, Order, Client
@@ -13,8 +15,8 @@ class OrderService:
         client = db.query(Client).filter(Client.id == order_data.client_id).first()
         if not client:
             raise ValueError(f"Client {order_data.client_id} not found")
-        total_price = 0
         order_items = []
+        total_price = Decimal("0.00")
         for item in order_data.order_items:
             product = ProductService.get_product(db, item.product_id)
             if not product:
@@ -24,14 +26,16 @@ class OrderService:
                 OrderItem(
                     product_id=product.id,
                     price_at_order=product.price,
-                    quantity=item.quantity
+                    quantity=item.quantity,
                 )
             )
         order = Order(
             client_id=client.id,
             order_items=order_items,
+            total_price=total_price
         )
         db.add(order)
+        print(order.__dict__)
         db.commit()
         db.refresh(order)
         return order
