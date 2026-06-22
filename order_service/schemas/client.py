@@ -6,7 +6,7 @@ class ClientBase(BaseModel):
     email: EmailStr
 
 
-class ClientCreateSchema:
+class ClientCreateSchema(ClientBase):
     pass
 
 

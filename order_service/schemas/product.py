@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -11,6 +13,7 @@ class ProductCreateSchema(ProductBase):
     pass
 
 
-class ProductListSchema(ProductBase):
+class ProductReadSchema(ProductBase):
     id: int
+
 

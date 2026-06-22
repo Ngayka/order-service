@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from order_service.schemas.product import ProductListSchema
+from order_service.schemas.product import ProductReadSchema
 
 
 class OrderItemCreateSchema(BaseModel):
@@ -9,7 +9,7 @@ class OrderItemCreateSchema(BaseModel):
 
 
 class OrderItemReadSchema(BaseModel):
-    product: ProductListSchema
+    product: ProductReadSchema
     quantity: int
     price_at_order: float
 

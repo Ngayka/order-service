@@ -11,6 +11,8 @@ class OrderService:
         if not order_data.order_items:
             raise ValueError("Order must contain minimum one product")
         client = db.query(Client).filter(Client.id == order_data.client_id).first()
+        if not client:
+            raise ValueError(f"Client {order_data.client_id} not found")
         total_price = 0
         order_items = []
         for item in order_data.order_items:
@@ -18,13 +20,13 @@ class OrderService:
             if not product:
                 raise ValueError(f"Product {item.product_id} not found")
             total_price += product.price * item.quantity
-        order_items.append(
-            OrderItem(
-                product_id=product.id,
-                price_at_order=product.price,
-                quantity=item.quantity
+            order_items.append(
+                OrderItem(
+                    product_id=product.id,
+                    price_at_order=product.price,
+                    quantity=item.quantity
+                )
             )
-        )
         order = Order(
             client_id=client.id,
             order_items=order_items,
@@ -32,8 +34,9 @@ class OrderService:
         db.add(order)
         db.commit()
         db.refresh(order)
-
+        return order
 
     @staticmethod
     def read_order(client_id: int, db: Session):
         order_list = db.query(Order).filter(Order.client_id == client_id).all()
+        return order_list
