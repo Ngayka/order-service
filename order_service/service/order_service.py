@@ -31,10 +31,14 @@ class OrderService:
             )
         order = Order(
             client_id=client.id,
-            order_items=order_items,
             total_price=total_price
         )
         db.add(order)
+        db.flush()
+        for item in order_items:
+            item.order_id = order.id
+            db.add(item)
+        print(order.total_price)
         print(order.__dict__)
         db.commit()
         db.refresh(order)

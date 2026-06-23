@@ -10,7 +10,7 @@ from order_service.service.order_service import OrderService
 router = APIRouter()
 
 
-@router.post("/orders", response_model=OrderCreateSchema)
+@router.post("/orders", response_model=OrderReadSchema)
 def create_order(order: OrderCreateSchema, db: Session = Depends(get_db)):
     return OrderService.create(order, db)
 
