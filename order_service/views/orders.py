@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from typing import List
 from sqlalchemy.orm import Session
 
 from order_service.db.session import get_db
